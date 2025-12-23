@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/home_style.css">
+    <title>Home</title>
+</head>
+
+<body>
+    <header>
+        <div id="navigation">
+            <div id="comp_name">
+                <i class="fa-solid fa-stethoscope" style="color: #FFD43B;"></i>
+                MediBook
+            </div>
+            <div id="menus">
+                <div><a href="./index.html" style="color: yellow;">Home</a></div>
+                <div><a href="">About</a></div>
+                <div><a href="./html/specialist.html">Specialist</a></div>
+                <div><a href="./html/login.html">Sign In</a></div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div id="home">
+            <div id="left_section">
+                <img src="./pics/doctor_pic.jpg" alt="">
+            </div>
+            <div id="right_section">
+                <h1>Book Your <span>Appointment</span></h1>
+                <form onsubmit="booking_list(event)"> 
+                    <div class="form-row">
+                        <input type="text" placeholder="Name" id="name" required />
+                        <input type="email" placeholder="Email" id="email" required />
+                    </div>
+                    <div class="form-row">
+                        <input type="tel" placeholder="Phone Number" id="ph" required />
+                        <input type="date" required id="date" />
+                    </div>
+                    <!-- <input type="text" placeholder="Problem Type" id="type" required> -->
+                    <select name="Problem Type" id="type" required>
+                        <option value="None">Select Your Concern</option>
+                        <option value="General">General</option>
+                        <option value="Cardio">heart Related</option>
+                        <option value="nephrologist">kidney Related</option>
+                        <option value="Neurologist">Brain Related</option>
+                    </select>
+                    <textarea placeholder="Message" rows="4" id="msg"></textarea>
+                    <button type="submit" id="book">BOOK NOW</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        function booking_list(ev) {
+            ev.preventDefault();
+            const doctor_type = document.getElementById("type").value;
+            console.log(doctor_type);
+            if(doctor_type=="General"){
+                window.location.href="./Doctors/general_doc.html" 
+            }
+            if(doctor_type=="Cardio"){
+                window.location.href="./Doctors/cardio_doc.html" 
+            }
+            if(doctor_type=="nephrologist"){
+                window.location.href="./Doctors/kidney_doc.html" 
+            }
+            if(doctor_type=="Neurologist"){
+                window.location.href="./Doctors/brain_doc.html" 
+            }
+        }
+    </script>
+</body>
+
+</html>

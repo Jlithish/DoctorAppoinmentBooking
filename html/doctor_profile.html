@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Profile</title>
+  <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="../css/home_style.css"/>
+</head>
+<body>
+  <header>
+    <div id="navigation">
+      <div id="comp_name">
+        <i class="fa-solid fa-stethoscope" style="color: #FFD43B;"></i>
+        MediBook
+      </div>
+      <div id="menus">
+        <div><a href="../index.html" style="color: yellow;">Home</a></div>
+        <div><a href="">About</a></div>
+        <div><a href="./specialist.html">Specialist</a></div>
+        <div><a href="./login.html" onclick="logout()" style="color: yellow;">Logout</a></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="profile_container">
+    <!-- Doctor Profile Section -->
+    <div id="left_profile">
+      <h1><i class="fa-solid fa-user-doctor"></i> Doctor Profile</h1>
+      <label for="doc_name">Name</label>
+      <input type="text" id="doc_name" readonly />
+
+      <label for="doc_email">Email</label>
+      <input type="email" id="doc_email" readonly />
+
+      <label for="doc_username">Username</label>
+      <input type="text" id="doc_username" readonly />
+
+      <button onclick="toggleEdit()">Edit</button>
+      <button onclick="saveProfile()" style="display:none;" id="saveBtn">Save</button>
+    </div>
+
+    <!-- Appointments Section -->
+    <div id="right_appointments">
+      <h2><i class="fa-solid fa-calendar-check"></i> Appointments</h2>
+      <div id="appointment_list"></div>
+    </div>
+  </section>
+
+  <script>
+    const docName = document.getElementById("doc_name");
+    const docEmail = document.getElementById("doc_email");
+    const docUsername = document.getElementById("doc_username");
+    const saveBtn = document.getElementById("saveBtn");
+
+    // ✅ Load current user (logged-in doctor)
+    const doctor = JSON.parse(localStorage.getItem("currentUser"));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (!doctor || doctor.role !== "doctor") {
+      alert("Access denied. Please log in as a doctor.");
+      window.location.href = "login.html";
+    } else {
+      docName.value = doctor.username;
+      docEmail.value = doctor.email;
+      docUsername.value = doctor.username;
+    }
+
+    function toggleEdit() {
+      docName.readOnly = false;
+      docEmail.readOnly = false;
+      saveBtn.style.display = "inline-block";
+    }
+
+    function saveProfile() {
+      const newName = docName.value.trim();
+      const newEmail = docEmail.value.trim();
+
+      const index = users.findIndex(user => user.username === doctor.username && user.role === "doctor");
+      if (index !== -1) {
+        users[index].username = newName;
+        users[index].email = newEmail;
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("currentUser", JSON.stringify(users[index]));
+        alert("Profile updated!");
+        location.reload();
+      }
+    }
+
+    // 🔁 Sample Appointments (Replace this with real data logic later)
+    const appointments = [
+      { patient: "John Doe", date: "2025-07-01", time: "10:00 AM" },
+      { patient: "Alice Smith", date: "2025-07-02", time: "1:00 PM" }
+    ];
+
+    const appointmentList = document.getElementById("appointment_list");
+    appointments.forEach(app => {
+      const div = document.createElement("div");
+      div.className = "appointment";
+      div.innerHTML = `<strong>${app.patient}</strong><br>${app.date} at ${app.time}`;
+      appointmentList.appendChild(div);
+    });
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+    }
+  </script>
+</body>
+</html>

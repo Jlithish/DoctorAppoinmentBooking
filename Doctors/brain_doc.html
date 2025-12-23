@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/home_style.css">
+    <link rel="stylesheet" href="../css/specific_doctor_style.css">
+    <title>Specialists</title>
+</head>
+
+<body>
+    <header>
+        <div id="navigation">
+            <div id="name">
+                <i class="fa-solid fa-stethoscope" style="color: #FFD43B;"></i>
+                MediBook
+            </div>
+            <div id="menus">
+                <div><a href="../index.html">Home</a></div>
+                <div><a href="">About</a></div>
+                <div><a href="../html/specialist.html" style="color: yellow;">Specialist</a></div>
+                <div><a href="../html/login.html">Sign In</a></div>
+            </div>
+        </div>
+    </header>
+    <section id="specialists">
+        <h1>Our <span>Neurologists</span></h1>
+        <div class="doctor-profiles">
+            <div class="doctor-card">
+                <img src="../pics/doctor8.jpeg" alt="Dr. Alice Smith">
+                <h3>Dr. Devesh</h3>
+                <p>Neurologist</p>
+                <p>10+ Years Experience</p>
+                <button class="book-slot-btn">Book Slot</button>
+            </div>
+            <div class="doctor-card">
+                <img src="../pics/doctor9.jpeg" alt="Dr. Bob Johnson">
+                <h3>Dr. Preveen</h3>
+                <p>Neurologist</p>
+                <p>8+ Years Experience</p>
+                <button class="book-slot-btn">Book Slot</button>
+            </div>
+            <div class="doctor-card">
+                <img src="../pics/doctor10.jpeg" alt="Dr. Carol White">
+                <h3>Dr. Gokul</h3>
+                <p>Neurologist</p>
+                <p>12+ Years Experience</p>
+                <button class="book-slot-btn">Book Slot</button>
+            </div>
+        </div>
+    </section>
+    <div id="slotModal">
+        <div class="modal-content">
+            <h3>Select Time Slot</h3>
+            <select id="slotDropdown">
+                <option value="">-- Select Slot --</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+            </select>
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button class="confirm-btn" onclick="confirmBooking()">Confirm</button>
+            </div>
+        </div>
+    </div>
+    <script src="../BookSlot.js"></script>
+</body>
+
+</html>

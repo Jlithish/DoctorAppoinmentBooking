@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/Login_style.css">
+    <style>
+        .user_div {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outer_div">
+        <div id="left">
+            <div class="user_div" id="user_div_top" onclick="user_login('doctor')">
+                <div class="User_type"><i class="fa-solid fa-user-doctor" style="color: #FFD43B;"></i></div>
+                <div class="user">Doctor</div>
+            </div>
+            <div class="user_div" id="user_div_bottom" onclick="user_login('patient')">
+                <div class="User_type"><i class="fa-solid fa-circle-user" style="color: #FFD43B;"></i></div>
+                <div class="user">User</div>
+            </div>
+        </div>
+        <div id="inner_div">
+            <form method="post" onsubmit="return signIn(event)">
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <h1 style="color: yellow; margin-bottom: 30px;">LogIn</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="Username">Username</label></td>
+                        <td><input type="text" placeholder="Enter the Username" name="Username" id="username" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="Password">Password</label></td>
+                        <td><input type="password" placeholder="Enter the Password" name="Password" id="pass" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Login" id="but"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: left;">
+                            <p id="invalid" style="color: yellow;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: end; text-decoration: underline;">
+                            <a href="./signup.html" style="color: yellow;">Sign Up</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let login_type = "";
+        function user_login(value) {
+            login_type = value;
+            if (value === "patient") {
+                document.getElementById("user_div_bottom").style.backgroundColor = "#FFD43B";
+                document.getElementById("user_div_top").style.backgroundColor = "#fff";
+            } else if (value === "doctor") {
+                document.getElementById("user_div_top").style.backgroundColor = "#FFD43B";
+                document.getElementById("user_div_bottom").style.backgroundColor = "#fff";
+            }
+        }
+        function signIn(ev) {
+            ev.preventDefault();
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("pass").value.trim();
+            const invalidMsg = document.getElementById("invalid");
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const matchedUser = users.find(user => user.username === username && user.password === password);
+            if (!login_type) {
+                invalidMsg.textContent = "Please select Doctor or User.";
+                return;
+            }
+            if (!matchedUser) {
+                invalidMsg.textContent = "Invalid Username or Password.";
+                return;
+            }
+            if (matchedUser.role !== login_type) {
+                invalidMsg.textContent = `User is registered as "${matchedUser.role}", not "${login_type}".`;
+                return;
+            }
+            localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+            if (login_type === "doctor") {
+                window.location.href = "doctor_profile.html";
+            } else {
+                window.location.href = "../index.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

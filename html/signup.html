@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/Login_style.css">
+    <style>
+        .user_div {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outer_div">
+        <div id="left">
+            <div class="user_div" id="user_div_top" onclick="selectRole('doctor')">
+                <div class="User_type"><i class="fa-solid fa-user-doctor" style="color: #FFD43B;"></i></div>
+                <div class="user">Doctor</div>
+            </div>
+            <div class="user_div" id="user_div_bottom" onclick="selectRole('patient')">
+                <div class="User_type"><i class="fa-solid fa-user" style="color: #FFD43B;"></i></div>
+                <div class="user">User</div>
+            </div>
+        </div>
+        <div id="inner_div">
+            <form onsubmit="signUp(event)">
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <h1 style="color: yellow; margin-bottom: 30px;">Sign Up</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="username">Username</label></td>
+                        <td><input type="text" placeholder="Choose a Username" name="username" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Email</label></td>
+                        <td><input type="email" placeholder="Enter Email" name="email" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password">Password</label></td>
+                        <td><input type="password" placeholder="Create Password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="confirm_password">Confirm Password</label></td>
+                        <td><input type="password" placeholder="Confirm Password" name="confirm_password" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p id="Invalid" style="color: yellow;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="SignUp" id="but"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: end; text-decoration: underline;">
+                            <a href="login.html" style="color: yellow;">Login</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let selectedRole = "";
+        function selectRole(role) {
+            selectedRole = role;
+
+            if (role === "doctor") {
+                document.getElementById("user_div_top").style.backgroundColor = "#FFD43B";
+                document.getElementById("user_div_bottom").style.backgroundColor = "#fff";
+            } else if (role === "patient") {
+                document.getElementById("user_div_bottom").style.backgroundColor = "#FFD43B";
+                document.getElementById("user_div_top").style.backgroundColor = "#fff";
+            }
+        }
+        function signUp(ev) {
+            ev.preventDefault();
+            const form = ev.target;
+            const username = form.username.value.trim();
+            const email = form.email.value.trim();
+            const password = form.password.value.trim();
+            const confirmPassword = form.confirm_password.value.trim();
+
+            if (!selectedRole) {
+                document.getElementById("Invalid").innerHTML = "Please select Doctor or User.";
+                return;
+            }
+            if (password !== confirmPassword) {
+                document.getElementById("Invalid").innerHTML = "Passwords do not match!";
+                return;
+            }
+            
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            const existingUser = users.find(user => user.username === username);
+            const existingMail = users.find(user => user.email === email);
+            if (existingUser) {
+                document.getElementById("Invalid").innerHTML = "Username already exists. Please choose another.";
+                return;
+            }
+            if (existingMail) {
+                document.getElementById("Invalid").innerHTML = "Email already exists. Please choose another.";
+                return;
+            }
+            const newUser = { username, email, password, role: selectedRole };
+            users.push(newUser);
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("currentUser", JSON.stringify(newUser));
+            if (selectedRole === "doctor") {
+                window.location.href = "doctor_profile.html";
+            } else {
+                window.location.href = "login.html";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
